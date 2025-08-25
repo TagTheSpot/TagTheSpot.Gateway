@@ -1,0 +1,13 @@
+﻿{
+  "ReverseProxy": {
+    "Routes": {
+      "spot-routes": {
+        "ClusterId": "spot-cluster",
+        "Match": {
+          "Path": "spot/{**catch-all}"
+        },
+        "Transforms": [ { "PathPattern": "{**catch-all}" } ]
+      }
+    }
+  }
+}

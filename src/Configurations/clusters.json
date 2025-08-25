@@ -1,0 +1,27 @@
+﻿{
+  "ReverseProxy": {
+    "Clusters": {
+      "user-cluster": {
+        "Destinations": {
+          "destination": {
+            "Address": "https://localhost:18001/"
+          }
+        }
+      },
+      "spot-cluster": {
+        "Destinations": {
+          "destination": {
+            "Address": "https://localhost:18002/"
+          }
+        }
+      },
+      "moderation-cluster": {
+        "Destinations": {
+          "destination": {
+            "Address": "https://localhost:18003/"
+          }
+        }
+      }
+    }
+  }
+}
