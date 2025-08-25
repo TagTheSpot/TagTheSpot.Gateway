@@ -1,0 +1,13 @@
+﻿{
+  "ReverseProxy": {
+    "Routes": {
+      "user-routes": {
+        "ClusterId": "user-cluster",
+        "Match": {
+          "Path": "user/{**catch-all}"
+        },
+        "Transforms": [ { "PathPattern": "{**catch-all}" } ]
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+﻿{
+  "ReverseProxy": {
+    "Routes": {
+      "moderation-routes": {
+        "ClusterId": "moderation-cluster",
+        "Match": {
+          "Path": "moderation/{**catch-all}"
+        },
+        "Transforms": [ { "PathPattern": "{**catch-all}" } ]
+      }
+    }
+  }
+}
