@@ -1,6 +1,32 @@
 ﻿{
   "ReverseProxy": {
     "Routes": {
+      "add-spot-route": {
+        "ClusterId": "spot-cluster",
+        "AuthorizationPolicy": "Admin",
+        "Match": {
+          "Path": "spot/api/spots",
+          "Methods": [ "POST" ]
+        },
+        "Transforms": [ { "PathPattern": "api/spots" } ]
+      },
+      "delete-spot-route": {
+        "ClusterId": "spot-cluster",
+        "AuthorizationPolicy": "Owner",
+        "Match": {
+          "Path": "spot/api/spots",
+          "Methods": [ "DELETE" ]
+        },
+        "Transforms": [ { "PathPattern": "api/spots" } ]
+      },
+      "mine-submissions-route": {
+        "ClusterId": "spot-cluster",
+        "AuthorizationPolicy": "Authenticated",
+        "Match": {
+          "Path": "spot/api/submissions/mine"
+        },
+        "Transforms": [ { "PathPattern": "api/submissions/mine" } ]
+      },
       "spot-routes": {
         "ClusterId": "spot-cluster",
         "Match": {

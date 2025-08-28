@@ -1,6 +1,15 @@
 ﻿{
   "ReverseProxy": {
     "Routes": {
+      "register-admin-route": {
+        "ClusterId": "user-cluster",
+        "AuthorizationPolicy": "Owner",
+        "Match": {
+          "Path": "user/api/register-admin",
+          "Methods": [ "POST" ]
+        },
+        "Transforms": [ { "PathPattern": "api/register-admin" } ]
+      },
       "user-routes": {
         "ClusterId": "user-cluster",
         "Match": {
