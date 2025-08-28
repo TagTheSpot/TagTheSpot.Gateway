@@ -4,21 +4,21 @@
       "user-cluster": {
         "Destinations": {
           "destination": {
-            "Address": "https://localhost:18001/"
+            "Address": "http://localhost:8001/"
           }
         }
       },
       "spot-cluster": {
         "Destinations": {
           "destination": {
-            "Address": "https://localhost:18002/"
+            "Address": "http://localhost:8002/"
           }
         }
       },
       "moderation-cluster": {
         "Destinations": {
           "destination": {
-            "Address": "https://localhost:18003/"
+            "Address": "http://localhost:8003/"
           }
         }
       }

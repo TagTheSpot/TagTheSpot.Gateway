@@ -3,6 +3,7 @@
     "Routes": {
       "moderation-routes": {
         "ClusterId": "moderation-cluster",
+        "AuthorizationPolicy": "Admin",
         "Match": {
           "Path": "moderation/{**catch-all}"
         },

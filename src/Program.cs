@@ -1,5 +1,6 @@
 using TagTheSpot.Gateway.Extensions;
 using TagTheSpot.Gateway.Middleware;
+using TagTheSpot.Gateway.Options;
 
 namespace TagTheSpot.Gateway
 {
@@ -11,6 +12,35 @@ namespace TagTheSpot.Gateway
 
             builder.Configuration.AddRoutesConfigurationFiles();
 
+            builder.Services.AddOptions<JwtSettings>()
+                .BindConfiguration(JwtSettings.SectionName)
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+
+            builder.Services.ConfigureAuthentication();
+
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Authenticated", options =>
+                {
+                    options.RequireAuthenticatedUser();
+                });
+
+                options.AddPolicy("Admin", options =>
+                {
+                    options
+                        .RequireAuthenticatedUser()
+                        .RequireRole("Admin", "Owner");
+                });
+
+                options.AddPolicy("Owner", options =>
+                {
+                    options
+                        .RequireAuthenticatedUser()
+                        .RequireRole("Owner");
+                });
+            });
+
             builder.Services.AddReverseProxy()
                 .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
@@ -19,6 +49,9 @@ namespace TagTheSpot.Gateway
             app.UseHttpsRedirection();
 
             app.UseExceptionHandlingMiddleware();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.MapReverseProxy();
 
