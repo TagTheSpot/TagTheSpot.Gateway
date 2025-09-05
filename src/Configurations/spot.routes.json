@@ -10,6 +10,15 @@
         },
         "Transforms": [ { "PathPattern": "api/spots" } ]
       },
+      "submit-spot-route": {
+        "ClusterId": "spot-cluster",
+        "AuthorizationPolicy": "Authenticated",
+        "Match": {
+          "Path": "spot/api/spots/submit",
+          "Methods": [ "POST" ]
+        },
+        "Transforms": [ { "PathPattern": "api/spots/submit" } ]
+      },
       "delete-spot-route": {
         "ClusterId": "spot-cluster",
         "AuthorizationPolicy": "Owner",
@@ -26,6 +35,14 @@
           "Path": "spot/api/submissions/mine"
         },
         "Transforms": [ { "PathPattern": "api/submissions/mine" } ]
+      },
+      "get-submission-by-id-route": {
+        "ClusterId": "spot-cluster",
+        "AuthorizationPolicy": "Authenticated",
+        "Match": {
+          "Path": "spot/api/submissions/{id}"
+        },
+        "Transforms": [ { "PathPattern": "api/submissions/{id}" } ]
       },
       "spot-routes": {
         "ClusterId": "spot-cluster",

@@ -41,10 +41,25 @@ namespace TagTheSpot.Gateway
                 });
             });
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("DEV", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                });
+            });
+
             builder.Services.AddReverseProxy()
                 .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
             var app = builder.Build();
+
+            if (builder.Environment.IsDevelopment())
+            {
+                app.UseCors("DEV");
+            }
 
             app.UseHttpsRedirection();
 
