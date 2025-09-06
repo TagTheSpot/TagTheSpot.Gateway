@@ -51,6 +51,10 @@ namespace TagTheSpot.Gateway
                 });
             });
 
+            builder.OverrideClusterUrl("user-cluster", "USER_SERVICE_URL")
+                   .OverrideClusterUrl("spot-cluster", "SPOT_SERVICE_URL")
+                   .OverrideClusterUrl("moderation-cluster", "MODERATION_SERVICE_URL");
+
             builder.Services.AddReverseProxy()
                 .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
@@ -60,9 +64,13 @@ namespace TagTheSpot.Gateway
             {
                 app.UseCors("DEV");
             }
+            else
+            {
+                app.UseHsts();
+            }
 
             app.UseHttpsRedirection();
-
+            
             app.UseExceptionHandlingMiddleware();
 
             app.UseAuthentication();

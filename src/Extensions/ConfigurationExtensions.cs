@@ -12,5 +12,18 @@
 
             return builder;
         }
+
+        public static WebApplicationBuilder OverrideClusterUrl(
+            this WebApplicationBuilder builder,string clusterName, string envVarName)
+        {
+            var envValue = Environment.GetEnvironmentVariable(envVarName);
+
+            if (!string.IsNullOrEmpty(envValue))
+            {
+                builder.Configuration[$"ReverseProxy:Clusters:{clusterName}:Destinations:destination:Address"] = envValue;
+            }
+
+            return builder;
+        }
     }
 }
