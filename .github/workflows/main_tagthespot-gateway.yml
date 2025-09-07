@@ -4,9 +4,8 @@
 name: Build and deploy ASP.Net Core app to Azure Web App - tagthespot-gateway
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
   workflow_dispatch:
 
 jobs:
@@ -52,4 +51,5 @@ jobs:
           app-name: 'tagthespot-gateway'
           slot-name: 'Production'
           package: .
+
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9378127FF6AD4549AE09C626BABB27D1 }}
