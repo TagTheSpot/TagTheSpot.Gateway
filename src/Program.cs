@@ -1,6 +1,9 @@
 using TagTheSpot.Gateway.Extensions;
-using TagTheSpot.Gateway.Middleware;
-using TagTheSpot.Gateway.Options;
+using TagTheSpot.Services.Shared.API.DependencyInjection;
+using TagTheSpot.Services.Shared.API.Middleware;
+using TagTheSpot.Services.Shared.Application.Extensions;
+using TagTheSpot.Services.Shared.Auth.DependencyInjection;
+using TagTheSpot.Services.Shared.Auth.Options;
 
 namespace TagTheSpot.Gateway
 {
@@ -12,10 +15,7 @@ namespace TagTheSpot.Gateway
 
             builder.Configuration.AddRoutesConfigurationFiles();
 
-            builder.Services.AddOptions<JwtSettings>()
-                .BindConfiguration(JwtSettings.SectionName)
-                .ValidateDataAnnotations()
-                .ValidateOnStart();
+            builder.Services.ConfigureValidatableOnStartOptions<JwtSettings>();
 
             builder.Services.ConfigureAuthentication();
 
@@ -23,7 +23,8 @@ namespace TagTheSpot.Gateway
             {
                 options.AddPolicy("Authenticated", options =>
                 {
-                    options.RequireAuthenticatedUser();
+                    options
+                        .RequireAuthenticatedUser();
                 });
 
                 options.AddPolicy("Admin", options =>
@@ -41,15 +42,7 @@ namespace TagTheSpot.Gateway
                 });
             });
 
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("DEV", policy =>
-                {
-                    policy.AllowAnyOrigin()
-                          .AllowAnyMethod()
-                          .AllowAnyHeader();
-                });
-            });
+            builder.Services.AddDevelopmentCorsPolicy();
 
             builder.OverrideClusterUrl("user-cluster", "USER_SERVICE_URL")
                    .OverrideClusterUrl("spot-cluster", "SPOT_SERVICE_URL")
@@ -62,15 +55,14 @@ namespace TagTheSpot.Gateway
 
             if (builder.Environment.IsDevelopment())
             {
-                app.UseCors("DEV");
+                app.UseCors(CorsExtensions.DevelopmentPolicyName);
             }
             else
             {
                 app.UseHsts();
+                app.UseHttpsRedirection();
             }
 
-            app.UseHttpsRedirection();
-            
             app.UseExceptionHandlingMiddleware();
 
             app.UseAuthentication();
